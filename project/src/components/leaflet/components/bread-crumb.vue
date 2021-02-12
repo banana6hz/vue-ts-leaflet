@@ -6,7 +6,6 @@
 					:default-active="item.index"
 					class="el-menu-demo"
 					mode="horizontal"
-					@select="handleSelect"
 					background-color="#fff"
 					text-color="#545c64"
 					active-text-color=’#303133’
@@ -15,10 +14,10 @@
 						<template slot="title" style="background-color='#fff'">
 							{{item.name}}
 						</template>
-						<div :index="siteItem.id" v-for="siteItem in item.menuList" :key="siteItem.id" @click="handleMenuClick(siteItem)">
+						<div :index="siteItem.id" v-for="siteItem in item.menuList" :key="siteItem.id">
 							<el-submenu :index="siteItem.id" v-if="siteItem.menuList">
 								<template slot="title">{{siteItem.name}}</template>
-								<div :index="buildItem.id" v-for="buildItem in siteItem.menuList" :key="buildItem.id" @click="handleMenuClick(buildItem, siteItem)">
+								<div :index="buildItem.id" v-for="buildItem in siteItem.menuList" :key="buildItem.id">
 									<el-submenu :index="buildItem.id" v-if="buildItem.menuList">
 										<template slot="title">
 											{{buildItem.name}}
@@ -38,7 +37,7 @@
 	</div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 interface BreadCrumbMenuList {
 	name: string;
 	id: string;
@@ -85,31 +84,31 @@ export default class BreadCrumb extends Vue {
 				location: '',
 				menuList: [
 					{
-						name: 'site1',
+						name: '河源',
 						id: '81',
 						level: 1,
 						location: '',
 					},
 					{
-						name: 'HK04',
+						name: '深圳',
 						id: '82',
 						level: 1,
 						location: '',
 						menuList: [
 							{
-								name: 'HK04-build1',
+								name: '龙岗区',
 								id: '21',
 								level: 2,
 								location: ''
 							},
 							{
-								name: 'HK04-build2',
+								name: '南山区',
 								location: '',
 								id: '22',
 								level: 2,
 								menuList: [
 									{
-										name: 'site2-build2-floor1',
+										name: '陈同学家🏠',
 										id: '221',
 										level: 3,
 										location: '',
@@ -119,19 +118,19 @@ export default class BreadCrumb extends Vue {
 						]
 					},
 					{
-						name: 'HK05',
+						name: '广州',
 						id: '83',
 						level: 1,
 						location: '',
 						menuList: [
 							{
-								name: 'HK05-DCT2',
+								name: '天河区',
 								id: '330',
 								level: 2,
 								location: '',
 								menuList: [
 									{
-										name: 'HK05-build1-floor1',
+										name: '搬砖工地🧱',
 										level: 3,
 										id: '311',
 										location: '',
@@ -139,19 +138,19 @@ export default class BreadCrumb extends Vue {
 								]
 							},
 							{
-								name: 'HK05-03',
+								name: '增城区',
 								id: '367',
 								level: 2,
 								location: '',
 								menuList: [
 									{
-										name: 'HK05-build2-floor1',
+										name: '山里⛰️',
 										id: '321',
 										level: 3,
 										location: '',
 									},
 									{
-										name: 'HK05-build2-floor2',
+										name: '水里🌊',
 										id: '322',
 										level: 3,
 										location: '',
@@ -166,41 +165,41 @@ export default class BreadCrumb extends Vue {
 	}
 
 	// 从World层选择floor
-	handleSelect (key, keyPath) {
-		if (keyPath.length == 4) {
-			this.breadCrumbMenuList.length = 1
-			const siteId = keyPath[1];
-			const buildId = keyPath[2];
-			const floorId = keyPath[3];
-			const buildList = this.breadCrumbMenuList[0].menuList!.filter((item) => item.id === siteId)[0]
-			const floorList = buildList.menuList!.filter((item) => item.id === buildId)[0]
-			const floorItem = floorList.menuList!.filter((item) => item.id === floorId)[0]
-			this.breadCrumbMenuList.push(buildList)
-			this.breadCrumbMenuList.push(floorList)
-			this.breadCrumbMenuList.push(floorItem)
-			this.handleMapChange(floorItem) // 更新地图
-		}
-	}
+	// handleSelect (key, keyPath) {
+	// 	if (keyPath.length == 4) {
+	// 		this.breadCrumbMenuList.length = 1
+	// 		const siteId = keyPath[1];
+	// 		const buildId = keyPath[2];
+	// 		const floorId = keyPath[3];
+	// 		const buildList = this.breadCrumbMenuList[0].menuList!.filter((item) => item.id === siteId)[0]
+	// 		const floorList = buildList.menuList!.filter((item) => item.id === buildId)[0]
+	// 		const floorItem = floorList.menuList!.filter((item) => item.id === floorId)[0]
+	// 		this.breadCrumbMenuList.push(buildList)
+	// 		this.breadCrumbMenuList.push(floorList)
+	// 		this.breadCrumbMenuList.push(floorItem)
+	// 		this.handleMapChange(floorItem) // 更新地图
+	// 	}
+	// }
 
-	handleMenuClick (clickItem, preItem) {
-		if (this.breadCrumbMenuList.length === clickItem.level) {
-			this.breadCrumbMenuList.push(clickItem)
-		} else if (this.breadCrumbMenuList.length > clickItem.level) {
-			this.breadCrumbMenuList.length = clickItem.level
-			this.breadCrumbMenuList.push(clickItem)
-		}
-		// 跳两层选择
-		if (preItem) {
-			this.breadCrumbMenuList.length = clickItem.level - 1
-			this.breadCrumbMenuList.push(preItem)
-			this.breadCrumbMenuList.push(clickItem)
-		}
-		this.handleMapChange(clickItem) // 更新地图
-	}
+	// handleMenuClick (clickItem, preItem) {
+	// 	if (this.breadCrumbMenuList.length === clickItem.level) {
+	// 		this.breadCrumbMenuList.push(clickItem)
+	// 	} else if (this.breadCrumbMenuList.length > clickItem.level) {
+	// 		this.breadCrumbMenuList.length = clickItem.level
+	// 		this.breadCrumbMenuList.push(clickItem)
+	// 	}
+	// 	// 跳两层选择
+	// 	if (preItem) {
+	// 		this.breadCrumbMenuList.length = clickItem.level - 1
+	// 		this.breadCrumbMenuList.push(preItem)
+	// 		this.breadCrumbMenuList.push(clickItem)
+	// 	}
+	// 	this.handleMapChange(clickItem) // 更新地图
+	// }
 
-	handleMapChange (clickItem) {
-		//this.updateMap(clickItem) // 传给父组件
-	}
+	// handleMapChange (clickItem) {
+	// 	//this.updateMap(clickItem) // 传给父组件
+	// }
 }
 </script>
 <style lang="scss">

@@ -1,19 +1,19 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <leaflet :hasBreadCrumb='true' v-if="false" ref="leaflet" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
+    <leaflet :hasBreadCrumb='true' v-if="true" ref="leaflet" />
+    <!-- <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/> -->
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import Leaflet from './components//leaflet/index.vue';
-import HelloWorld from './components/HelloWorld.vue';
+// import HelloWorld from './components/HelloWorld.vue';
 
 @Component({
   components: {
-    HelloWorld, Leaflet
+   Leaflet
   },
 })
 export default class App extends Vue {}
