@@ -6,6 +6,7 @@
 					:default-active="item.index"
 					class="el-menu-demo"
 					mode="horizontal"
+					@select="handleSelect"
 					background-color="#fff"
 					text-color="#545c64"
 					active-text-color=’#303133’
@@ -14,10 +15,10 @@
 						<template slot="title" style="background-color='#fff'">
 							{{item.name}}
 						</template>
-						<div :index="siteItem.id" v-for="siteItem in item.menuList" :key="siteItem.id">
+						<div :index="siteItem.id" v-for="siteItem in item.menuList" :key="siteItem.id" @click="handleMenuClick(siteItem)">
 							<el-submenu :index="siteItem.id" v-if="siteItem.menuList">
 								<template slot="title">{{siteItem.name}}</template>
-								<div :index="buildItem.id" v-for="buildItem in siteItem.menuList" :key="buildItem.id">
+								<div :index="buildItem.id" v-for="buildItem in siteItem.menuList" :key="buildItem.id" @click="handleMenuClick(buildItem, siteItem)">
 									<el-submenu :index="buildItem.id" v-if="buildItem.menuList">
 										<template slot="title">
 											{{buildItem.name}}
@@ -165,41 +166,41 @@ export default class BreadCrumb extends Vue {
 	}
 
 	// 从World层选择floor
-	// handleSelect (key, keyPath) {
-	// 	if (keyPath.length == 4) {
-	// 		this.breadCrumbMenuList.length = 1
-	// 		const siteId = keyPath[1];
-	// 		const buildId = keyPath[2];
-	// 		const floorId = keyPath[3];
-	// 		const buildList = this.breadCrumbMenuList[0].menuList!.filter((item) => item.id === siteId)[0]
-	// 		const floorList = buildList.menuList!.filter((item) => item.id === buildId)[0]
-	// 		const floorItem = floorList.menuList!.filter((item) => item.id === floorId)[0]
-	// 		this.breadCrumbMenuList.push(buildList)
-	// 		this.breadCrumbMenuList.push(floorList)
-	// 		this.breadCrumbMenuList.push(floorItem)
-	// 		this.handleMapChange(floorItem) // 更新地图
-	// 	}
-	// }
+	handleSelect (key, keyPath) {
+		if (keyPath.length == 4) {
+			this.breadCrumbMenuList.length = 1
+			const siteId = keyPath[1]
+			const buildId = keyPath[2]
+			const floorId = keyPath[3]
+			const buildList = this.breadCrumbMenuList[0].menuList!.filter((item) => item.id === siteId)[0]
+			const floorList = buildList.menuList!.filter((item) => item.id === buildId)[0]
+			const floorItem = floorList.menuList!.filter((item) => item.id === floorId)[0]
+			this.breadCrumbMenuList.push(buildList)
+			this.breadCrumbMenuList.push(floorList)
+			this.breadCrumbMenuList.push(floorItem)
+			this.handleMapChange(floorItem) // 更新地图
+		}
+	}
 
-	// handleMenuClick (clickItem, preItem) {
-	// 	if (this.breadCrumbMenuList.length === clickItem.level) {
-	// 		this.breadCrumbMenuList.push(clickItem)
-	// 	} else if (this.breadCrumbMenuList.length > clickItem.level) {
-	// 		this.breadCrumbMenuList.length = clickItem.level
-	// 		this.breadCrumbMenuList.push(clickItem)
-	// 	}
-	// 	// 跳两层选择
-	// 	if (preItem) {
-	// 		this.breadCrumbMenuList.length = clickItem.level - 1
-	// 		this.breadCrumbMenuList.push(preItem)
-	// 		this.breadCrumbMenuList.push(clickItem)
-	// 	}
-	// 	this.handleMapChange(clickItem) // 更新地图
-	// }
+	handleMenuClick (clickItem, preItem) {
+		if (this.breadCrumbMenuList.length === clickItem.level) {
+			this.breadCrumbMenuList.push(clickItem)
+		} else if (this.breadCrumbMenuList.length > clickItem.level) {
+			this.breadCrumbMenuList.length = clickItem.level
+			this.breadCrumbMenuList.push(clickItem)
+		}
+		// 跳两层选择
+		if (preItem) {
+			this.breadCrumbMenuList.length = clickItem.level - 1
+			this.breadCrumbMenuList.push(preItem)
+			this.breadCrumbMenuList.push(clickItem)
+		}
+		this.handleMapChange(clickItem) // 更新地图
+	}
 
-	// handleMapChange (clickItem) {
-	// 	//this.updateMap(clickItem) // 传给父组件
-	// }
+	handleMapChange (clickItem) {
+		// this.updateMap(clickItem) // 传给父组件
+	}
 }
 </script>
 <style lang="scss">
