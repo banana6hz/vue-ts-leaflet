@@ -38,7 +38,7 @@
 	</div>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 interface BreadCrumbMenuList {
 	name: string;
 	id: string;
@@ -73,7 +73,7 @@ interface FloorMenu {
   name: 'BreadCrumb',
 })
 export default class BreadCrumb extends Vue {
-	// @Prop({ type: Function, required: false, default: () => {} }) public updateMap?: any
+	@Prop({ default: {} }) public updateMap?: any
 	private breadCrumbMenuList: BreadCrumbMenuList[] = []
 
 	created () {
@@ -199,7 +199,7 @@ export default class BreadCrumb extends Vue {
 	}
 
 	handleMapChange (clickItem) {
-		// this.updateMap(clickItem) // 传给父组件
+		this.updateMap(clickItem) // 传给父组件
 	}
 }
 </script>
