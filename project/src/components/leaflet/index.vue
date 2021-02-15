@@ -39,14 +39,15 @@ export default class extends Vue {
       // shadowAnchor: [4, 62],  // 相同的影子
       popupAnchor:  [1, -38] // 该点是相对于iconAnchor弹出信息的位置  这个是我手动调出来的，文档默认原始值是[-1，-76]，我是去一半值，取一半值调出来的
     });
+    // 初始化默认位置
     // L.marker([22.3, 114.1], {icon: greenIcon}).addTo(map)
     //   .bindPopup('Here')
     //   .openPopup();
+    // 获取当前位置
     map.locate({
       setView: true,
       maxZoom: 10
     });
-    // 获取当前位置
     map.on('locationfound', function (e) {
       const radius = e.accuracy / 2
       L.marker(e.latlng, {icon: greenIcon}).addTo(map).bindPopup('You are here!').openPopup()
