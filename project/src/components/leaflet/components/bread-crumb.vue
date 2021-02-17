@@ -43,7 +43,7 @@ interface BreadCrumbMenuList {
 	name: string;
 	id: string;
 	level: number;
-	location: string;
+	location: number[];
 	menuList?: SiteMenu[];
 }
 
@@ -51,7 +51,7 @@ interface SiteMenu {
 	name: string;
 	id: string;
 	level: number;
-	location: string;
+	location: number[];
 	menuList?: BuildMenu[];
 }
 
@@ -59,7 +59,7 @@ interface BuildMenu {
 	name: string;
 	id: string;
 	level: number;
-	location: string;
+	location: number[];
 	menuList?: FloorMenu[];
 }
 
@@ -67,13 +67,13 @@ interface FloorMenu {
 	name: string;
 	id: string;
 	level: number;
-	location: string;
+	location: number[];
 }
 @Component({
   name: 'BreadCrumb',
 })
 export default class BreadCrumb extends Vue {
-	@Prop({ default: {} }) public updateMap?: any
+  @Prop({ type: Function, required: false, default: {} }) public updateMap?: any
 	private breadCrumbMenuList: BreadCrumbMenuList[] = []
 
 	created () {
@@ -82,29 +82,29 @@ export default class BreadCrumb extends Vue {
 				name: 'World',
 				id: '0',
 				level: 0,
-				location: '',
+				location: [22.34373, 114.1987],
 				menuList: [
 					{
 						name: '河源',
 						id: '81',
 						level: 1,
-						location: '',
+						location: [23.74626, 114.69780],
 					},
 					{
 						name: '深圳',
 						id: '82',
 						level: 1,
-						location: '',
+						location: [],
 						menuList: [
 							{
 								name: '龙岗区',
 								id: '21',
 								level: 2,
-								location: ''
+								location: []
 							},
 							{
 								name: '南山区',
-								location: '',
+								location: [],
 								id: '22',
 								level: 2,
 								menuList: [
@@ -112,7 +112,7 @@ export default class BreadCrumb extends Vue {
 										name: '陈同学家🏠',
 										id: '221',
 										level: 3,
-										location: '',
+										location: [],
 									}
 								]
 							}
@@ -122,19 +122,19 @@ export default class BreadCrumb extends Vue {
 						name: '广州',
 						id: '83',
 						level: 1,
-						location: '',
+						location: [],
 						menuList: [
 							{
 								name: '天河区',
 								id: '330',
 								level: 2,
-								location: '',
+								location: [],
 								menuList: [
 									{
 										name: '搬砖工地🧱',
 										level: 3,
 										id: '311',
-										location: '',
+										location: [],
 									}
 								]
 							},
@@ -142,19 +142,19 @@ export default class BreadCrumb extends Vue {
 								name: '增城区',
 								id: '367',
 								level: 2,
-								location: '',
+								location: [],
 								menuList: [
 									{
 										name: '山里⛰️',
 										id: '321',
 										level: 3,
-										location: '',
+										location: [],
 									},
 									{
 										name: '水里🌊',
 										id: '322',
 										level: 3,
-										location: '',
+										location: [],
 									}
 								]
 							}
@@ -164,7 +164,6 @@ export default class BreadCrumb extends Vue {
 			}
 		]
 	}
-
 	// 从World层选择floor
 	handleSelect (key, keyPath) {
 		if (keyPath.length == 4) {
